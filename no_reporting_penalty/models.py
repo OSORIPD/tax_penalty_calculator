@@ -6,7 +6,11 @@ class PenaltyTaxRate(models.Model):
 
     title = models.CharField(max_length=30)  #가산세 항목 description 
     rate = models.FloatField() #가산세 항목별 세율 ex) 40%
-    updated_at = models.DateTimeField() #데이터 업데이트 시각
+    created_at =  models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True) #데이터 업데이트 시각
+
+    def __str__(self):
+        return f'[{self.pk}]{self.title}'
 
 
 class PenaltyDiscountRate(models.Model):
@@ -16,8 +20,10 @@ class PenaltyDiscountRate(models.Model):
     title = models.CharField(max_length=30)  #가산세 감면 기간 description ex) 가. 1개월 이내
     period = models.IntegerField() #감면 기한 적용 기간 day 기준이므로 int 활용. ex) 30 DAYs
     rate = models.FloatField() #감면율 ex) 90%
-    updated_at = models.DateTimeField() #데이터 업데이트 시각
+    created_at =  models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True) #데이터 업데이트 시각
 
-
+    def __str__(self):
+        return f'[{self.pk}]{self.title}'
 
 
