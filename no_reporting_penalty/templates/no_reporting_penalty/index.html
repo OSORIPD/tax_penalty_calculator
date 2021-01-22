@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>가산세 계산기</title>
+</head>
+
+<body>
+<h1>가산세 계산기</h1>
+
+
+{% comment %} 
+{% for obj in penaltytaxrate_list %}
+
+<hr/>
+<h2>{{ obj.title }}</h2>
+<h4>{{ obj.created_at }}</h4>
+<h4>{{ obj.updated_at }}</h4>
+<p>{{ obj.rate }}</p>
+
+
+{% endfor %}
+<hr/>
+ {% endcomment %}
+
+{% comment %} <form action = "{% url 'usd' %}" method=POST>
+    {% csrf_token %}
+    <input type=number placeholder="결정세액을 입력하세요." name="amount">
+    <br>
+
+    <button type=submit >완료</button>
+</form> {% endcomment %}
+
+{% comment %} 
+<br>
+<label for ="your_name">Your name: </label>
+<input id="your_name" type="text" name="your_name" maxlength="100"/>
+
+<form action="/your-name/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form> {% endcomment %}
+
+
+<form action="/your-name/" method="post">
+    {% csrf_token %}
+
+    <label for ="your_name">Your name: </label>
+    <input id="your_name" type="text" name="your_name" maxlength="100">
+    <input type="submit" value="Submit" />
+</form>
+
+
+</body>
+</html>
