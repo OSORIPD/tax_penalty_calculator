@@ -1,18 +1,24 @@
 from django.shortcuts import render
 from .models import PenaltyTaxRate
-# Create your views here.
+from django.views.generic import ListView
 
-def index(request):
 
-    penaltyTaxRates = PenaltyTaxRate.objects.all() 
+class PenaltyTaxRateList(ListView):
+    model = PenaltyTaxRate
+    ordering = '-pk'
+    # template_name = 'no_reporting_penalty/index.html'
 
-    return render(
-        request,
-        'no_reporting_penalty/index.html',
-        {
-            'penaltyTaxRates' : penaltyTaxRates,
-        }
-    )
+# def index(request):
+
+#     penaltyTaxRates = PenaltyTaxRate.objects.all() 
+
+#     return render(
+#         request,
+#         'no_reporting_penalty/index.html',
+#         {
+#             'penaltyTaxRates' : penaltyTaxRates,
+#         }
+#     )
 
 
 # def single_post_page(request, pk):
