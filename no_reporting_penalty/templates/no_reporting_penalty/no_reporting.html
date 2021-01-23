@@ -42,33 +42,17 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">계산이력</a>
-            </li>
-            {% comment %} <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-                </div>
-            </li> {% endcomment %}
-            </ul>
-            {% comment %} <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-            </form> {% endcomment %}
+            </li>    
+            </ul>     
         </div>
 
     </nav>
           
-    <div class ="container">
+    <div class ="container p-3 my-3 border">
         <div class="row">
             <div class="col-8">
                 <br>
                 <h3>무신고가산세(기한후신고)</h3>
-
-                {% comment %} <p><b>무신고가산세와 납부지연가산세</b></p> {% endcomment %}
                 <P>납부해야할 세액과 일자를 입력하시면 최종 예상 가산세액은 자동 계산됩니다.</P>
 
             </div>           
@@ -76,154 +60,278 @@
         <hr />
         
         <br>
+       
         <div class ="row">   
-            <div class="col-5">       
-                <h5>무신고 가산세 계산</h5>
-                <br>
-                
-                <div class="row">
-                    <div class="col-5 mt-2">   
-                         <p style="font-weight:600;">1. 납부해야할 세액 (대상금액) </p>
-                    </div>
-
-                    <div class="col-6">   
-                        <form>
-                            <div class="form-group">
-                                {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
-                                <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" placeholder="납부해야할 세액(대상금액)을 입력하세요.">
-                            </div>
-                        </form>
-                  
-
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-5 mt-2">   
-                         <p style="font-weight:600;">2. 가산세율 </p>
-                    </div>
-
-                    <div class="col-4">                        
-                        <div class="form-group">
-                            {% comment %} <select class="custom-select">
-                                <option selected="0">부정행위</option>
-                                <option value="1">일반(부정행위 이외)</option>
-                            </select> {% endcomment %}
-
-                            <select class="form-control" id="select-taxrate">
-                                <option>부정행위</option>
-                                <option>일반(부정행위 이외)</option>
-                            </select>
+            <div class="col-5">
+                <div class ="container px-3 py-4 border">       
+                    <h5>무신고 가산세 계산</h5>
+                    <br>
+                    
+                    <div class="row">
+                        <div class="col-5 mt-2">   
+                            <p style="font-weight:600;">1. 납부해야할 세액 (대상금액) </p>
                         </div>
-                        <p style="font-size:11px; color:grey;">국세기본법 제 47조의 2(무신고가산세) 제 1항</p>
 
+                        <div class="col-7">   
+                            <form>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" placeholder="납부해야할 세액(대상금액)을 입력하세요.">
+                                </div>
+                            </form>
+                    
+
+                        </div>
                     </div>
 
-                    <div class="col-2">   
-                        <form>
+                    <div class="row">
+                        <div class="col-5 mt-2">   
+                            <p style="font-weight:600;">2. 가산세율 </p>
+                        </div>
+
+                        <div class="col-4">                        
                             <div class="form-group">
-                                {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
-                                <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled="" placeholder="      -      %">
+                                {% comment %} <select class="custom-select">
+                                    <option selected="0">부정행위</option>
+                                    <option value="1">일반(부정행위 이외)</option>
+                                </select> {% endcomment %}
+
+                                <select class="form-control" id="select-taxrate">
+                                    <option>부정행위</option>
+                                    <option>일반(부정행위 이외)</option>
+                                </select>
                             </div>
-                        </form>
-                    </div>
-                </div>
+                            <p style="font-size:11px; color:grey;">국세기본법 제 47조의 2(무신고가산세) 제 1항</p>
 
-                <div class="row">
-                    <div class="col-5">   
-                         <p style="font-weight:600;">3. 감면 </p>
-                    </div>
-                </div>
+                        </div>
 
-                <div class="row">
-                    <div class="col-5 mt-2" >   
-                         <p>법정신고기한(당초신고기한)</p>
+                        <div class="col-3">   
+                            <form>
+                                <div class="form-group">
+                                    {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
+                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled="" style = "text-align:right;" placeholder="             -            %">
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="col-4"> 
-                        <div class="form-group"> 
-                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                <input type="text"   class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020">
-                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                                    <div class="input-group-text">
-                                        <i class="fa fa-calendar"></i>
+
+                    <div class="row">
+                        <div class="col-5">   
+                            <p style="font-weight:600;">3. 감면 </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5 mt-2" >   
+                            <p>법정신고기한(당초신고기한)</p>
+                        </div>
+                        <div class="col-4"> 
+                            <div class="form-group"> 
+                                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                    <input type="text"   class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020">
+                                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div> 
                                     </div> 
                                 </div> 
-                            </div> 
-                        </div>         
+                            </div>         
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-5 mt-2" >   
-                         <p>실제 신고일자</p>
-                    </div>
-                    <div class="col-4"> 
-                        <div class="form-group"> 
-                            <div class="input-group date" id="datetimepicker2" data-target-input="nearest"> 
-                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" value="01/15/2020"> 
-                                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                                    <div class="input-group-text">
-                                        <i class="fa fa-calendar"></i>
+                    <div class="row">
+                        <div class="col-5 mt-2" >   
+                            <p>실제 신고일자</p>
+                        </div>
+                        <div class="col-4"> 
+                            <div class="form-group"> 
+                                <div class="input-group date" id="datetimepicker2" data-target-input="nearest"> 
+                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" value="01/15/2020"> 
+                                    <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-5 mt-2">   
-                         <p style="font-weight:700;">감면내용 </p>
-                    </div>
-
-                    <div class="col-4">                        
-                        <div class="form-group">
-                            <select class="form-control" id="select-taxperiod">
-                                <option>해당 없음</option>
-                                <option>1개월 이내</option>
-                                <option>1개월 초과 3개월 이내</option>
-                                <option>3개월 초과 6개월 이내</option>
-                            </select>
+                    <div class="row">
+                        <div class="col-5 mt-2">   
+                            <p style="font-weight:700;">감면내용 </p>
                         </div>
-                        <p style="font-size:11px; color:grey;">국세기본법 제 48조 (가산세 감면 등) 제 2항 2호</p>
-                    </div>
 
-                    <div class="col-2">   
-                        <form>
+                        <div class="col-4">                        
                             <div class="form-group">
-                                {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
-                                <input type="text" class="form-control" id="norepo_taxperiod" aria-describedby="emailHelp" disabled="" placeholder="      -      %">
+                                <select class="form-control" id="select-taxperiod">
+                                    <option>해당 없음</option>
+                                    <option>1개월 이내</option>
+                                    <option>1개월 초과 3개월 이내</option>
+                                    <option>3개월 초과 6개월 이내</option>
+                                </select>
                             </div>
-                        </form>
-                    </div>
-                </div>      
+                            <p style="font-size:11px; color:grey;">국세기본법 제 48조 (가산세 감면 등) 제2항 2호</p>
+                        </div>
 
-                <div class="row">
-                    <div class="col-8">
+                        <div class="col-3">   
+                            <form>
+                                <div class="form-group">
+                                    {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
+                                    <input type="text" class="form-control" id="norepo_taxperiod" aria-describedby="emailHelp" disabled="" style = "text-align:right;" placeholder="             -            %">
+                                </div>
+                            </form>
+                        </div>
+                    </div>      
+
+                    <div class="row">
+                        <div class="col-9">
+                        </div>
+                        <div class="col-3">
+                            <button type="button" class="btn btn-primary">예상가산세액계산</button>
+                        </div>
                     </div>
-                    <div class="col-3">
-                        <button type="button" class="btn btn-primary">예상가산세액 계산</button>
+                    <br>  
+                    <hr>
+                    <div class="row">       
+                        <div class="col-5 mt-2">   
+                            <p style="font-weight:600;" class="text-info">예상 가산세액</p>
+                        </div>
+
+                        <div class="col-7">   
+                            <form>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled="" style = "text-align:right;" placeholder="원">
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                <br>  
-                <hr>
-                <div class="row">       
-                    <div class="col-5 mt-2">   
-                         <p style="font-weight:600;" class="text-info">예상 가산세액</p>
+                </div>       
+
+
+                <br>
+                <br>
+                
+                <div class ="container px-3 py-4 border">       
+                    <h5>납부지연가산세 계산</h5>
+                    <br>
+                    
+                    <div class="row">
+                        <div class="col-5 mt-2">   
+                            <p style="font-weight:600;">1. 납부해야할 세액 (대상금액) </p>
+                        </div>
+
+                        <div class="col-7">   
+                            <form>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" placeholder="납부해야할 세액(대상금액)을 입력하세요.">
+                                </div>
+                            </form>
+                    
+
+                        </div>
                     </div>
 
-                    <div class="col-6">   
-                        <form>
+                    <div class="row">
+                        <div class="col-5 mt-2">   
+                            <p style="font-weight:600;">2. 미납부 일수 </p>
+                        </div>                 
+
+                        <div class="col-5">   
+                            <form>
+                                <div class="form-group">
+                                    {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
+                                    <input type="text" style = "text-align:right;" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled="" placeholder="일">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-5 mt-2" >   
+                            <p>법정신고기한(당초신고기한)</p>
+                        </div>
+                        <div class="col-4"> 
+                            <div class="form-group"> 
+                                <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                                    <input type="text"   class="form-control datetimepicker-input" data-target="#datetimepicker3" value="01/11/2020">
+                                    <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div> 
+                                    </div> 
+                                </div> 
+                            </div>         
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5 mt-2" >   
+                            <p>실제 납부일자</p>
+                        </div>
+                        <div class="col-4"> 
+                            <div class="form-group"> 
+                                <div class="input-group date" id="datetimepicker4" data-target-input="nearest"> 
+                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" value="01/15/2020"> 
+                                    <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5 mt-2">   
+                            <p style="font-weight:700;">3. 이자율</p>
+                        </div>
+
+                        <div class="col-3">                        
                             <div class="form-group">
-                                <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled="" placeholder="                                                                           원">
+                                <select class="form-control" id="select-taxratedelayed">
+                                    <option>10만분의 25</option>
+                                    <option>1만분의 3</option>                            
+                                </select>
                             </div>
-                        </form>
+                        </div>
+
+                        <div class="col-4">   
+                            <form>
+                                <div class="form-group">
+                                    {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
+                                    <input type="text" class="form-control" id="norepo_taxperiod" aria-describedby="emailHelp" disabled=""  style = "text-align:right;" placeholder="             -                    %">
+                                </div>
+                                <p style="font-size:11px; color:grey;">2019년 신고·부과하는 분부터 10만분의 25적용</p>
+
+                            </form>
+                        </div>
+                    </div>      
+
+                    <div class="row">
+                        <div class="col-9">
+                        </div>
+                        <div class="col-3">
+                            <button type="button" class="btn btn-primary">예상가산세액계산</button>
+                        </div>
                     </div>
-                </div>
+                    <br>  
+                    <hr>
+                    <div class="row">       
+                        <div class="col-5 mt-2">   
+                            <p style="font-weight:600;" class="text-info">예상 가산세액</p>
+                        </div>
+
+                        <div class="col-7">   
+                            <form>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled="" placeholder="                                                                                      원">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>       
+
             </div>
-            
-
-
-
 
 
 
@@ -234,6 +342,7 @@
             <div class="col-3">       
                 <h5>가산세/감면 기준</h5>
             </div>
+ 
         </div>
 
 
@@ -245,6 +354,7 @@
     </div>
 
     <script type="text/javascript"> $(function () { $('#datetimepicker1').datetimepicker({ format: 'L'}); $('#datetimepicker2').datetimepicker({ format: 'L', useCurrent: false }); $("#datetimepicker1").on("change.datetimepicker", function (e) { $('#datetimepicker2').datetimepicker('minDate', e.date); }); $("#datetimepicker2").on("change.datetimepicker", function (e) { $('#datetimepicker1').datetimepicker('maxDate', e.date); }); }); </script>
+    <script type="text/javascript"> $(function () { $('#datetimepicker3').datetimepicker({ format: 'L'}); $('#datetimepicker4').datetimepicker({ format: 'L', useCurrent: false }); $("#datetimepicker3").on("change.datetimepicker", function (e) { $('#datetimepicker4').datetimepicker('minDate', e.date); }); $("#datetimepicker4").on("change.datetimepicker", function (e) { $('#datetimepicker3').datetimepicker('maxDate', e.date); }); }); </script>
 
 
 
