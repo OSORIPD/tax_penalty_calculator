@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from .models import PenaltyTaxRate
+from django import forms
+from django.http import HttpResponseRedirect
+from .forms import LoginForm
 
 # class PenaltyTaxRateList(ListView):
 #     model = PenaltyTaxRate
@@ -10,14 +13,6 @@ from .models import PenaltyTaxRate
 
 # class PenaltyTaxRateDetail(DetailView):
 #     model = PenaltyTaxRate
-
-def index(request):
-    return render(request,'no_reporting_penalty/index.html', { })
-
-def no_reporting(request):
-    return render(request,'no_reporting_penalty/no_reporting.html', { })
-
-
 
 # def login_home(request):
 #     return render(request,'no_reporting_penalty/login.html', { })
@@ -30,13 +25,11 @@ def no_reporting(request):
 #     return render(request,'no_reporting_penalty/index.html', {'amount':amount2,'usd':usd})
 
 
-# from django import forms
 # class NameForm(forms.Form):
 # 	your_name = forms.CharField(label = 'Your Name', max_length=100,widget=forms.Textarea)
 
 
 
-# from django.http import HttpResponseRedirect
 # def get_name(request):
 
 # 	#POST방식이면 제출된 폼을 처리
@@ -60,7 +53,6 @@ def no_reporting(request):
 
 
 
-# from .forms import LoginForm
 
 # def login(request):
 #     if request.method == 'GET':
@@ -73,6 +65,19 @@ def no_reporting(request):
  
  
 #     return render(request, 'login.html', {'form': form})
+
+
+
+def index(request):	
+    return render(request,'no_reporting_penalty/index.html', { })
+
+
+def no_reporting(request):
+    return render(request,'no_reporting_penalty/no_reporting.html', { })
+
+
+
+
 
 
 
