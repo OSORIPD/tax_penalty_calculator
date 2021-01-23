@@ -63,7 +63,10 @@
        
         <div class ="row">   
             <div class="col-5">
-                <div class ="container px-3 py-4 border">       
+                <div class ="container px-3 py-4 border">
+                <form action = "" method = POST>
+                    {% csrf_token %}
+
                     <h5>무신고 가산세 계산</h5>
                     <br>
                     
@@ -72,14 +75,10 @@
                             <p style="font-weight:600;">1. 납부해야할 세액 (대상금액) </p>
                         </div>
 
-                        <div class="col-7">   
-                            {% comment %} <form action = "{% url 'test' %}" method=POST> {% endcomment %}
-                            <form>
-                                {% csrf_token %}
-                                <div class="form-group" >
-                                    <input type="text" class="form-control" id="norepo_tax_tobepaid" aria-describedby="emailHelp" placeholder="납부해야할 세액(대상금액)을 입력하세요.">
-                                </div>
-                            </form>                   
+                        <div class="col-7">                             
+                            <div class="form-group" >
+                                <input type="text" class="form-control" id="norepo_tax_tobepaid" name="norepo_tax_tobepaid" aria-describedby="emailHelp" placeholder="납부해야할 세액(대상금액)을 입력하세요." value="{{norepo_tax_tobepaid}}">
+                            </div>                                            
                         </div>
                     </div>
 
@@ -95,31 +94,18 @@
                                     <option value="1">일반(부정행위 이외)</option>
                                 </select> {% endcomment %}
 
-                                <select class="form-control" id="select_taxrate_item">
+                                <select class="form-control" id="select_taxrate_item" name="select_taxrate_item">
                                     <option>부정행위</option>
                                     <option>일반(부정행위 이외)</option>
                                 </select>
-                            
-
                             </div>
                             <p style="font-size:11px; color:grey;">국세기본법 제 47조의 2(무신고가산세) 제 1항</p>
-
                         </div>
-
-
-
-                        <div class="col-3">   
-                            <form>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="norepo_taxrate_tobepaid" aria-describedby="emailHelp" disabled="" style = "text-align:right;" placeholder="             -            %" value="{{norepo_taxrate_tobepaid}}" >                                    
-                            
-                                </div>
-                            </form>
+                        <div class="col-3">                           
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="norepo_taxrate_tobepaid"  id="norepo_taxrate_tobepaid" aria-describedby="emailHelp" readOnly="" style = "text-align:right;" placeholder="             -            %" value="{{norepo_taxrate_tobepaid}}" >
+                            </div>                           
                         </div>
-
-                    
-
-
                     </div>
 
                     <div class="row">
@@ -180,13 +166,11 @@
                             <p style="font-size:11px; color:grey;">국세기본법 제 48조 (가산세 감면 등) 제2항 2호</p>
                         </div>
 
-                        <div class="col-3">   
-                            <form>
-                                <div class="form-group">
-                                    {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
-                                    <input type="text" class="form-control" id="norepo_taxperiod" aria-describedby="emailHelp" disabled="" style = "text-align:right;" placeholder="             -            %">
-                                </div>
-                            </form>
+                        <div class="col-3">
+                            <div class="form-group">
+                                {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
+                                <input type="text" class="form-control" id="norepo_taxperiod" aria-describedby="emailHelp" readOnly="" style = "text-align:right;" placeholder="             -            %">
+                            </div>
                         </div>
                     </div>      
 
@@ -194,7 +178,7 @@
                         <div class="col-9">
                         </div>
                         <div class="col-3">
-                            <button type="button" class="btn btn-primary">예상가산세액계산</button>
+                            <button type="submit" class="btn btn-primary">예상가산세액계산</button>
                         </div>
                     </div>
                     <br>  
@@ -204,14 +188,14 @@
                             <p style="font-weight:600;" class="text-info">예상 가산세액</p>
                         </div>
 
-                        <div class="col-7">   
-                            <form>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled="" style = "text-align:right;" placeholder="원">
-                                </div>
-                            </form>
+                        <div class="col-7">                           
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="norepo_finaltax" name="norepo_finaltax" aria-describedby="emailHelp" readOnly="" style = "text-align:right;" placeholder="원" value="{{norepo_finaltax}} 원">
+
+                            </div>                        
                         </div>
                     </div>
+                </form>
                 </div>       
 
 
@@ -247,7 +231,7 @@
                             <form>
                                 <div class="form-group">
                                     {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
-                                    <input type="text" style = "text-align:right;" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled="" placeholder="일">
+                                    <input type="text" style = "text-align:right;" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" readOnly="" placeholder="일">
                                 </div>
                             </form>
                         </div>
@@ -307,7 +291,7 @@
                             <form>
                                 <div class="form-group">
                                     {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
-                                    <input type="text" class="form-control" id="norepo_taxperiod" aria-describedby="emailHelp" disabled=""  style = "text-align:right;" placeholder="             -                    %">
+                                    <input type="text" class="form-control" id="norepo_taxperiod" aria-describedby="emailHelp" readOnly=""  style = "text-align:right;" placeholder="             -                    %">
                                 </div>
                                 <p style="font-size:11px; color:grey;">2019년 신고·부과하는 분부터 10만분의 25적용</p>
 
@@ -332,7 +316,7 @@
                         <div class="col-7">   
                             <form>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled="" placeholder="                                                                                      원">
+                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" readOnly="" placeholder="                                                                                      원">
                                 </div>
                             </form>
                         </div>
@@ -361,7 +345,7 @@
                         <div class="col-7">   
                             <form>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled=""  style = "text-align:right;" placeholder="원">
+                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" readOnly=""  style = "text-align:right;" placeholder="원">
                                 </div>
                             </form>
                     
@@ -377,7 +361,7 @@
                         <div class="col-7">   
                             <form>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled=""  style = "text-align:right;" placeholder="원">
+                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" readOnly=""  style = "text-align:right;" placeholder="원">
                                 </div>
                             </form>
                     
@@ -393,10 +377,9 @@
                         <div class="col-7">   
                             <form>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled=""  style = "text-align:right;" placeholder="원">
+                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" readOnly=""  style = "text-align:right;" placeholder="원">
                                 </div>
-                            </form>
-                    
+                            </form>                   
 
                         </div>
                     </div>
@@ -496,6 +479,8 @@
                 document.getElementById('norepo_taxrate_tobepaid').value = "20%"
             }
         }
+
+
 
     </script>
     

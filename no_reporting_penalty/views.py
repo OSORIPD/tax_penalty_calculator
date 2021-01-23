@@ -75,8 +75,70 @@ def index(request):
     return render(request,'no_reporting_penalty/index.html', { })
 
 
+
+
 def no_reporting(request):
-    return render(request,'no_reporting_penalty/no_reporting.html', { })
+    """무신고 가산세 처리
+    """
+    if request.method == 'GET':
+        return render(request,'no_reporting_penalty/no_reporting.html')
+
+    elif request.method == 'POST':
+
+        is_error_norepo_tax_tobepaid = False
+
+        # 1.납부해야할 세액 처리
+        norepo_tax_tobepaid = request.POST.get('norepo_tax_tobepaid','')
+        if norepo_tax_tobepaid is None or norepo_tax_tobepaid is '' :
+            norepo_tax_tobepaid = 0
+    
+        #예외처리: 숫자 외의 입력이 들어올 경우 0으로 간주
+        if type(norepo_tax_tobepaid) is str:
+            try:
+                norepo_tax_tobepaid = int(norepo_tax_tobepaid)
+            
+            except:
+                norepo_tax_tobepaid = 0
+                is_error_norepo_tax_tobepaid = True
+
+
+        # 2. 가산세율 수신 처리
+        norepo_taxrate_tobepaid = request.POST.get('norepo_taxrate_tobepaid','')
+        print("norepo_taxrate_tobepaid ",norepo_taxrate_tobepaid, type(norepo_taxrate_tobepaid))
+
+        if( norepo_taxrate_tobepaid == "40%"):
+            tax_rate_basic = 0.4
+            return_taxrate_str = "부정행위"
+
+        else:
+            tax_rate_basic = 0.2 
+            return_taxrate_str = "일반(부정행위 이외)"
+
+        print("tax_rate_basic ",tax_rate_basic, type(tax_rate_basic))
+
+
+
+
+        # 4. 최종 계산
+        if is_error_norepo_tax_tobepaid is True:
+            return_value = "납부해야할 세액이 잘못 입력되었습니다."
+        else:
+            return_value = int(norepo_tax_tobepaid * tax_rate_basic)
+
+
+
+    else:
+        raise Exception("POST도 GET도 아님")
+
+    return_dic = { 
+        'norepo_tax_tobepaid' : norepo_tax_tobepaid,
+        'select_taxrate_item' : return_taxrate_str,
+
+        'norepo_finaltax': return_value,        
+    
+    }
+
+    return render(request,'no_reporting_penalty/no_reporting.html', return_dic)
 
 
 
