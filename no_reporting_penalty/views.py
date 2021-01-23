@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+
 from .models import PenaltyTaxRate
-from django import forms
 from django.http import HttpResponseRedirect
+
+from django import forms
 from .forms import LoginForm
 
 # class PenaltyTaxRateList(ListView):
@@ -68,6 +70,7 @@ from .forms import LoginForm
 
 
 
+
 def index(request):	
     return render(request,'no_reporting_penalty/index.html', { })
 
@@ -75,6 +78,19 @@ def index(request):
 def no_reporting(request):
     return render(request,'no_reporting_penalty/no_reporting.html', { })
 
+
+
+def test(request):
+    print("test!! norepo_taxtobepaid")
+    # tax_tobepaid = request.POST['norepo_tax_tobepaid']
+    if request.method == 'GET':
+        print("get!! ")
+    elif request.method == 'POST':
+        print("post!! ")
+    else:
+        print("???")
+
+    return render(request,'no_reporting_penalty/no_reporting.html',{'norepo_taxrate_tobepaid':0.4})
 
 
 
