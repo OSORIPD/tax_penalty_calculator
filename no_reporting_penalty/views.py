@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from .models import PenaltyTaxRate
 
 # class PenaltyTaxRateList(ListView):
@@ -12,6 +13,10 @@ from .models import PenaltyTaxRate
 
 def index(request):
     return render(request,'no_reporting_penalty/index.html', { })
+
+
+def login_home(request):
+    return render(request,'no_reporting_penalty/login.html', { })
 
 
 # def usd(request):
@@ -48,4 +53,23 @@ def get_name(request):
 		form = NameForm() #아까 정의해둔 폼클래스
 
 	return render(request,'index.html',{'form':form})
+
+
+
+from .forms import LoginForm
+
+def login(request):
+    if request.method == 'GET':
+        form = LoginForm
+    elif request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            request.session['user'] = form.user_id
+            return redirect('/')
+ 
+ 
+    return render(request, 'login.html', {'form': form})
+
+
+
 
