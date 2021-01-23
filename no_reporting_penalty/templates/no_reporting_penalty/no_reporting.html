@@ -211,7 +211,7 @@
                 <br>
                 
                 <div class ="container px-3 py-4 border">       
-                    <h5>납부지연가산세 계산</h5>
+                    <h5>납부지연 가산세 계산</h5>
                     <br>
                     
                     <div class="row">
@@ -331,18 +331,150 @@
                     </div>
                 </div>       
 
+                <br>
+                <div class="form-row float-right">
+
+                    <button type="button" class="btn btn-success" >초기화</button>
+                </div>
+                <br>
+             
+                <br>
+
+
+                <div class ="container px-3 py-4 border">       
+                    <h5>최종 예상 가산세 계산</h5>
+                    <br>
+                    
+                    <div class="row">
+                        <div class="col-5 mt-2">   
+                            <p style="font-weight:600;">1. 무신고 가산세</p>
+                        </div>
+
+                        <div class="col-7">   
+                            <form>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled=""  style = "text-align:right;" placeholder="원">
+                                </div>
+                            </form>
+                    
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5 mt-2">   
+                            <p style="font-weight:600;">2. 납부지연 가산세</p>
+                        </div>
+
+                        <div class="col-7">   
+                            <form>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled=""  style = "text-align:right;" placeholder="원">
+                                </div>
+                            </form>
+                    
+
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-5 mt-2">   
+                            <p style="font-weight:600;" class="text-info">가산세 합계</p>
+                        </div>               
+
+                        <div class="col-7">   
+                            <form>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" disabled=""  style = "text-align:right;" placeholder="원">
+                                </div>
+                            </form>
+                    
+
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
+            <div class="col-3"> 
+                <div class ="container px-3 py-4 border">
+                    <h5>가산세/감면 기준</h5>
+                    <br>
+                    <P>가산세 기준</P>
 
+                    <table class="table table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col">항목</th>
+                        <th scope="col">세율</th>
+                        </tr>
+                    </thead>
+                    <tbody>                 
+                        {% comment %} <tr>
+                        <th scope="row">부정행위</th>
+                        <td>40%</td>
+                        </tr> {% endcomment %}
+                        <tr>
+                        <th scope="row">부정행위</th>
+                        <td>40%</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">일반(부정행위 이외)</th>
+                        <td>20%</td>
+                        </tr>
+                        {% comment %} <tr>
+                        <th scope="row">일반(부정행위 이외)</th>
+                        <td>20%</td>
+                        </tr> {% endcomment %}                    
+                  
+                    </tbody>
+                    </table>
 
+                    <br>
+                    <P>감면 기준</P>
 
+                    <table class="table table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col">감면 기간</th>
+                        <th scope="col">감면 기한 일자</th>
+                        <th scope="col">감면율</th>
+                        </tr>
+                    </thead>
+                    <tbody>                 
+                        {% comment %} <tr>
+                        <th scope="row">부정행위</th>
+                        <td>40%</td>
+                        </tr> {% endcomment %}
 
+                        <tr>
+                        <th scope="row">가. 1개월 이내</th>
+                        <td></td>
+                        <td>50%</td>
+                        </tr>
 
-            <div class="col-3">       
-                <h5>가산세/감면 기준</h5>
-            </div>
- 
+                        <tr>
+                        <th scope="row">나. 1개월 초과 3개월 이내</th>
+                        <td></td>
+                        <td>30%</td>
+                        </tr>
+
+                        <tr>
+                        <th scope="row">다. 3개월 초과 6개월 이내</th>
+                        <td></td>
+                        <td>20%</td>
+                        </tr>
+                        {% comment %} <tr>
+                        <th scope="row">일반(부정행위 이외)</th>
+                        <td>20%</td>
+                        </tr> {% endcomment %}                    
+                  
+                    </tbody>
+                    </table>
+                    <p style="font-size:11px; color:grey;">2020년 1월 1일 이후 수정신고분 부터 적용</p>
+
+                </div>
+            </div> 
         </div>
 
 
