@@ -8,7 +8,6 @@ urlpatterns = [
 
     # path('', views.no_reporting, name='no_reporting'),
     path('no_reporting/', views.no_reporting, name='no_reporting'),
-    path('test/', views.test, name='test'),
 
 
 ]

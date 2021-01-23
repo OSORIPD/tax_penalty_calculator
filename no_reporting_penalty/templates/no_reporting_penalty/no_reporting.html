@@ -92,18 +92,21 @@
                                 {% comment %} <select class="custom-select">
                                     <option selected="0">부정행위</option>
                                     <option value="1">일반(부정행위 이외)</option>
+
+                                     value="{{select_taxrate_item}}"
                                 </select> {% endcomment %}
 
-                                <select class="form-control" id="select_taxrate_item" name="select_taxrate_item">
-                                    <option>부정행위</option>
-                                    <option>일반(부정행위 이외)</option>
-                                </select>
+                                <select class="form-control" id="select_taxrate_item" name="select_taxrate_item" >
+                                    <option value="부정행위">부정행위</option>
+                                    <option value="일반(부정행위 이외)">일반(부정행위 이외)</option>
+                                </select>           
+
                             </div>
                             <p style="font-size:11px; color:grey;">국세기본법 제 47조의 2(무신고가산세) 제 1항</p>
                         </div>
                         <div class="col-3">                           
                             <div class="form-group">
-                                <input type="text" class="form-control" name="norepo_taxrate_tobepaid"  id="norepo_taxrate_tobepaid" aria-describedby="emailHelp" readOnly="" style = "text-align:right;" placeholder="             -            %" value="{{norepo_taxrate_tobepaid}}" >
+                                <input type="text" class="form-control" name="norepo_taxrate_tobepaid"  id="norepo_taxrate_tobepaid" aria-describedby="emailHelp" readOnly="" style = "text-align:right;" placeholder="             -            %" >
                             </div>                           
                         </div>
                     </div>
@@ -121,7 +124,7 @@
                         <div class="col-4"> 
                             <div class="form-group"> 
                                 <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                    <input type="text"   class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020">
+                                    <input type="text"   class="form-control datetimepicker-input" id="datetimepicker1_input" data-target="#datetimepicker1" value="01/11/2021">
                                     <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar"></i>
@@ -138,7 +141,7 @@
                         <div class="col-4"> 
                             <div class="form-group"> 
                                 <div class="input-group date" id="datetimepicker2" data-target-input="nearest"> 
-                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" value="01/15/2020"> 
+                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" value="01/15/2021"> 
                                     <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar"></i>
@@ -454,6 +457,8 @@
     </div>
 
     <script type="text/javascript"> 
+        setValue()
+
         $(function () {
             $('#datetimepicker1').datetimepicker({ format: 'L', useCurrent: false});
             $('#datetimepicker2').datetimepicker({ format: 'L', useCurrent: false});
@@ -472,14 +477,105 @@
             document.getElementById('norepo_taxrate_tobepaid').value = "20%"
         } 
 
+
         document.getElementById('select_taxrate_item').onclick = function(){
+
             if (document.getElementById('select_taxrate_item').value == "부정행위") {
-                document.getElementById('norepo_taxrate_tobepaid').value = "40%"  
+                document.getElementById('norepo_taxrate_tobepaid').value = "40%" 
+
             } else{
-                document.getElementById('norepo_taxrate_tobepaid').value = "20%"
+                document.getElementById('norepo_taxrate_tobepaid').value = "20%"                
             }
+            populateStorage()
+
+        }
+      
+
+        // detect storage support
+        {% comment %} (function() {
+            var storageAvailable = (type) => {
+                try {
+                    var storage = window[type],
+                        x = '__storage_test__'
+                    storage.setItem(x, x)
+                    storage.removeItem(x)
+                    return true
+                } catch (e) {
+                    return e instanceof DOMException && (
+                        e.code === 22 ||                               // All web browsers except Firefox
+                        e.code === 1014 ||                             // Firefox
+                        e.name === 'QuotaExceededError' ||             // All web browsers except Firefox
+                        e.name === 'NS_ERROR_DOM_QUOTA_REACHED')       // firefox
+                        && storage.length !== 0
+                }
+            }
+            if (storageAvailable('localStorage')) {
+                console.log("localstorage support")
+            } else {
+                console.log("localstorage do not support")
+            }
+        })() {% endcomment %}
+
+        //setValue()
+        
+        function populateStorage() {
+            sessionStorage.setItem('norepo_tax_tobepaid', document.getElementById('norepo_tax_tobepaid').value)
+            sessionStorage.setItem('select_taxrate_item', document.getElementById('select_taxrate_item').value)
+
+            sessionStorage.setItem('select_taxrate_item', document.getElementById('select_taxrate_item').value)
+            sessionStorage.setItem('select_taxrate_item', document.getElementById('select_taxrate_item').value)
+
+
+
         }
 
+        function setValue() {
+            document.getElementById('norepo_tax_tobepaid').value = sessionStorage.getItem('norepo_tax_tobepaid')
+            document.getElementById('select_taxrate_item').value = sessionStorage.getItem('select_taxrate_item')
+
+            document.getElementById('select_taxrate_item').value = sessionStorage.getItem('select_taxrate_item')
+            document.getElementById('select_taxrate_item').value = sessionStorage.getItem('select_taxrate_item')
+
+
+
+        }
+
+        //select_taxrate_item_selector.onchange = populateStorage
+
+
+
+        {% comment %} 
+        var colorEl = document.getElementById('colorEl')
+        var fontEl = document.getElementById('fontEl')
+        var colorSelector = document.getElementById('colorSelector')
+        var fontSelector = document.getElementById('fontSelector')
+
+        if (!localStorage.getItem('color')) {
+            populateStorage()
+        } else {
+            setStyle()
+        }
+
+        function populateStorage() {
+            localStorage.setItem('color', colorSelector.value)
+            localStorage.setItem('fontStyle', fontSelector.value)
+            setStyle()
+
+        }
+
+        function setValue() {
+
+
+            var currentColor = localStorage.getItem('color')
+            var currentFontStyle = localStorage.getItem('fontStyle')
+            colorSelector.value = currentColor
+            fontSelector.value = currentFontStyle
+            colorEl.style.backgroundColor = currentColor
+            fontEl.style.fontFamily = currentFontStyle
+        }
+
+        colorSelector.onchange = populateStorage
+        fontSelector.onchange = populateStorage {% endcomment %}
 
 
     </script>

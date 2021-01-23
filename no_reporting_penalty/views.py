@@ -104,7 +104,7 @@ def no_reporting(request):
 
         # 2. 가산세율 수신 처리
         norepo_taxrate_tobepaid = request.POST.get('norepo_taxrate_tobepaid','')
-        print("norepo_taxrate_tobepaid ",norepo_taxrate_tobepaid, type(norepo_taxrate_tobepaid))
+        # print("norepo_taxrate_tobepaid ",norepo_taxrate_tobepaid, type(norepo_taxrate_tobepaid))
 
         if( norepo_taxrate_tobepaid == "40%"):
             tax_rate_basic = 0.4
@@ -114,7 +114,7 @@ def no_reporting(request):
             tax_rate_basic = 0.2 
             return_taxrate_str = "일반(부정행위 이외)"
 
-        print("tax_rate_basic ",tax_rate_basic, type(tax_rate_basic))
+        # print("tax_rate_basic ",tax_rate_basic, type(tax_rate_basic))
 
 
 
@@ -131,28 +131,14 @@ def no_reporting(request):
         raise Exception("POST도 GET도 아님")
 
     return_dic = { 
-        'norepo_tax_tobepaid' : norepo_tax_tobepaid,
-        'select_taxrate_item' : return_taxrate_str,
+        # 'norepo_tax_tobepaid' : norepo_tax_tobepaid,
+        # 'select_taxrate_item' : return_taxrate_str,
 
         'norepo_finaltax': return_value,        
     
     }
 
     return render(request,'no_reporting_penalty/no_reporting.html', return_dic)
-
-
-
-def test(request):
-    print("test!! norepo_taxtobepaid")
-    # tax_tobepaid = request.POST['norepo_tax_tobepaid']
-    if request.method == 'GET':
-        print("get!! ")
-    elif request.method == 'POST':
-        print("post!! ")
-    else:
-        print("???")
-
-    return render(request,'no_reporting_penalty/no_reporting.html',{'norepo_taxrate_tobepaid':0.4})
 
 
 
