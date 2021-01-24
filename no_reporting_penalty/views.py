@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 
-from .models import PenaltyTaxRate
+from .models import NoReportTax
 from django.http import HttpResponseRedirect
 from django import forms
+
+
 
 
 def no_reporting(request):
@@ -15,6 +17,10 @@ def no_reporting(request):
 
     elif request.method == 'POST':
 
+        #DB 에서 전체 무신고 가산세 평가건 로드
+        # noReports = NoReportTax.objects.all()
+
+ 
         if 'norepo_submit_btn' in request.POST:
 
             is_error_norepo_tax_tobepaid = False
@@ -67,7 +73,6 @@ def no_reporting(request):
                 return_value = "납부해야할 세액이 잘못 입력되었습니다."
             else:
                 return_value = int(norepo_tax_tobepaid * tax_rate_basic *(1 - tax_rate_discount))
-
             
             return_dic = { 
 
@@ -126,8 +131,18 @@ def no_reporting(request):
                 return_value = "납부해야할 세액이 잘못 입력되었습니다."
             else:
                 return_value = int(delayrepo_taxtobepaid * tax_rate_delay * delayrepo_daytobepaid / 365.0)
+                final_delayrepo_tax = return_value
+                
 
-            
+                final_norepo_tax = request.POST['final_norepo_tax']
+
+                try:
+                    tax_final = int(final_norepo_tax) + return_value
+
+                except:
+                    tax_final = return_value
+
+
             return_dic = { 
 
          
@@ -139,20 +154,31 @@ def no_reporting(request):
                 'delayrepo_finaltax': return_value,   
                 'final_delayrepo_tax' :  return_value,
 
+                'norepo_finaltax' : final_norepo_tax,
+                'final_norepo_tax': final_norepo_tax,
+
+
+                'tax_final' : tax_final
             }
 
+
+
+
             return render(request,'no_reporting_penalty/no_reporting.html', return_dic)
+
+        elif 'session_reset_btn' in request.POST:
+            return_dic = {          
+                # 'norepo_finaltax' : 0,
+                # 'final_norepo_tax': 0,
+
+                # 'tax_final' : 0
+            }
+            return render(request,'no_reporting_penalty/no_reporting.html',return_dic)
+
 
 
     else:
         raise Exception("POST도 GET도 아님")
-
-
-
-
-
-
-
 
 
 

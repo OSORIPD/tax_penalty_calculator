@@ -35,13 +35,13 @@
                 </a>
             </li> {% endcomment %}
             <li class="nav-item">
-                <a class="nav-link" href="#">무신고가산세(기한후신고)</a>
+                <a class="nav-link" href="#">무신고가산세</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">과소신고·초과환급신고가산세(수정신고)</a>
+                <a class="nav-link" href="#">과소신고·초과환급신고가산세(준비중)</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">계산이력</a>
+                <a class="nav-link" href="#">계산이력(준비중)</a>
             </li>    
             </ul>     
         </div>
@@ -309,14 +309,11 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                
                 </div>       
 
-                <br>
-                <div class="form-row float-right">
-
-                    <button type="button" class="btn btn-success" >초기화</button>
-                </div>
+               
+          
                 <br>             
                 <br>
                 <div class ="container px-3 py-4 border">       
@@ -353,11 +350,22 @@
                         </div>       
                         <div class="col-7">   
                             <div class="form-group">
-                                <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="aria_describe" readOnly=""  style = "text-align:right;" placeholder="원">
+                                <input type="text" class="form-control" id="tax_final" name="tax_final"  aria-describedby="aria_describe" readOnly=""  style = "text-align:right;" placeholder="원" value = "{{tax_final}} 원">
                             </div>
                         </div>
                     </div>
                 </div>
+                </form>
+
+                <br>
+                <form action="" method=POST>
+                    {% csrf_token %}
+                    <div class="form-row float-right">
+                        <button type="submit" class="btn btn-success" id="session_reset_btn" name="session_reset_btn" >초기화</button>
+                    </div>
+                </form>
+
+
             </div>
 
 
@@ -394,26 +402,22 @@
                     <thead>
                         <tr>
                         <th scope="col">감면 기간</th>
-                        <th scope="col">감면 기한 일자</th>
                         <th scope="col">감면율</th>
                         </tr>
                     </thead>
                     <tbody>                 
                         <tr>
                         <th scope="row">가. 1개월 이내</th>
-                        <td></td>
                         <td>50%</td>
                         </tr>
 
                         <tr>
                         <th scope="row">나. 1개월 초과 3개월 이내</th>
-                        <td></td>
                         <td>30%</td>
                         </tr>
 
                         <tr>
                         <th scope="row">다. 3개월 초과 6개월 이내</th>
-                        <td></td>
                         <td>20%</td>
                         </tr>
                                   
@@ -491,8 +495,6 @@
                 }
 
                 adjustNorepoTaxrateTodiscount();
-                //alert("diffInDays:"+ diffInDays);
-
             });      
 
 
@@ -545,11 +547,9 @@
       
 
         adjustNorepoTaxrateTodiscount();
-
         document.getElementById('select_discount_period').onclick = function(){
             adjustNorepoTaxrateTodiscount();
             populateStorage();
-
         }
 
 
@@ -557,7 +557,6 @@
         document.getElementById('norepo_submit_btn').onclick = function(){
             populateStorage();
         }
-
 
 
         function adjustNorepoTaxrateTodiscount(){  // 무신고 가산세의 감면내용의 tax rate를 조정
@@ -580,7 +579,13 @@
 
         //------------------------납부 지연 가산세------------------------------------------
 
- 
+
+        // 2. 미납부 일수 계산
+        var diffInDays = (new Date($('#datetimepicker4_input').val()).valueOf() - new Date($('#datetimepicker3_input').val()).valueOf()) / (3600 * 24 * 1000);       
+        if(!isNaN(diffInDays))                 
+            document.getElementById('delayrepo_daytobepaid').value = diffInDays
+
+
         // 3.이자율 관련 처리
         adjustDelayrepoTaxrateToPay()
         document.getElementById('select_taxratedelayed').onclick = function(){
@@ -597,12 +602,10 @@
         }
 
 
-
         function adjustDelayrepoTaxrateToPay(){  // 지연납부 가산세의 감면내용의 tax rate를 조정.
             
             if (document.getElementById('select_taxratedelayed').value == "10만분의 25") {
                 document.getElementById('delayrepo_taxrate').value = "0.025%";
-
             }
             else{
                 document.getElementById('delayrepo_taxrate').value = "0.03%";
@@ -610,14 +613,24 @@
 
         }
 
+        //-----------------------------------초기화------------------------------------------------------------
 
-
-
+        document.getElementById('session_reset_btn').onclick = function(){
+            sessionStorage.clear();
+            location.reload(true);
+            //location.href = location.href;
+            //history.go(0);
+        }
 
 
 
         //-----------------------------------공통-------------------------------------------------------------
 
+        {% comment %} $( document ).ready(function() {
+            var offset = $("#contact").offset();
+            $('html, body').animate({scrollTop : offset.top}, 400);
+        });
+ {% endcomment %}
 
         function populateStorage() {  //로컬 스토리지에 데이터를 저장
             
@@ -625,17 +638,10 @@
             sessionStorage.setItem('select_taxrate_item', document.getElementById('select_taxrate_item').value);
             sessionStorage.setItem('select_discount_period', document.getElementById('select_discount_period').value);
             
-            sessionStorage.setItem('delayrepo_taxtobepaid', document.getElementById('delayrepo_taxtobepaid').value)
-            sessionStorage.setItem('delayrepo_daytobepaid', document.getElementById('delayrepo_daytobepaid').value)           
-            sessionStorage.setItem('select_taxratedelayed', document.getElementById('select_taxratedelayed').value)
-            sessionStorage.setItem('delayrepo_taxrate', document.getElementById('delayrepo_taxrate').value)
-
-           // sessionStorage.setItem('norepo_finaltax', document.getElementById('norepo_finaltax').value)
-           // sessionStorage.setItem('final_norepo_tax', document.getElementById('final_norepo_tax').value)
-           // sessionStorage.setItem('delayrepo_finaltax', document.getElementById('delayrepo_finaltax').value)
-           // sessionStorage.setItem('final_delayrepo_tax', document.getElementById('final_delayrepo_tax').value)
-
-
+            sessionStorage.setItem('delayrepo_taxtobepaid', document.getElementById('delayrepo_taxtobepaid').value);
+            sessionStorage.setItem('delayrepo_daytobepaid', document.getElementById('delayrepo_daytobepaid').value);          
+            sessionStorage.setItem('select_taxratedelayed', document.getElementById('select_taxratedelayed').value);
+            sessionStorage.setItem('delayrepo_taxrate', document.getElementById('delayrepo_taxrate').value);
 
         }
 
@@ -644,23 +650,12 @@
             document.getElementById('select_taxrate_item').value = sessionStorage.getItem('select_taxrate_item');
             document.getElementById('select_discount_period').value = sessionStorage.getItem('select_discount_period');
 
-            document.getElementById('delayrepo_taxtobepaid').value = sessionStorage.getItem('norepo_tax_tobepaid')
-            document.getElementById('delayrepo_daytobepaid').value = sessionStorage.getItem('delayrepo_daytobepaid')
-            document.getElementById('select_taxratedelayed').value = sessionStorage.getItem('select_taxratedelayed')
-            document.getElementById('delayrepo_taxrate').value = sessionStorage.getItem('delayrepo_taxrate')
-
-          //  document.getElementById('norepo_finaltax').value = sessionStorage.getItem('norepo_finaltax')
-          //  document.getElementById('final_norepo_tax').value = sessionStorage.getItem('final_norepo_tax')
-          //  document.getElementById('delayrepo_finaltax').value = sessionStorage.getItem('delayrepo_finaltax')
-           // document.getElementById('final_delayrepo_tax').value = sessionStorage.getItem('final_delayrepo_tax')
-
+            document.getElementById('delayrepo_taxtobepaid').value = sessionStorage.getItem('norepo_tax_tobepaid');
+            document.getElementById('delayrepo_daytobepaid').value = sessionStorage.getItem('delayrepo_daytobepaid');
+            document.getElementById('select_taxratedelayed').value = sessionStorage.getItem('select_taxratedelayed');
+            document.getElementById('delayrepo_taxrate').value = sessionStorage.getItem('delayrepo_taxrate');
 
         }
-
-
-
-
-
    
     </script>
     
