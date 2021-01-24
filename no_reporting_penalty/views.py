@@ -5,7 +5,8 @@ from .models import NoReportTax
 from django.http import HttpResponseRedirect
 from django import forms
 
-
+"""2021-01-24 v1 박상현
+"""
 
 
 def no_reporting(request):
