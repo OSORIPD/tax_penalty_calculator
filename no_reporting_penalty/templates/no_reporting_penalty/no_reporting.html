@@ -77,7 +77,7 @@
 
                         <div class="col-7">                             
                             <div class="form-group" >
-                                <input type="text" class="form-control" id="norepo_tax_tobepaid" name="norepo_tax_tobepaid" aria-describedby="emailHelp" placeholder="납부해야할 세액(대상금액)을 입력하세요." value="{{norepo_tax_tobepaid}}">
+                                <input type="text" class="form-control" id="norepo_tax_tobepaid" name="norepo_tax_tobepaid" aria-describedby="emailHelp" placeholder="납부해야할 세액(대상금액)을 입력하세요.">
                             </div>                                            
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                         <div class="col-4"> 
                             <div class="form-group"> 
                                 <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                    <input type="text"   class="form-control datetimepicker-input" id="datetimepicker1_input" data-target="#datetimepicker1" value="01/11/2021">
+                                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="datetimepicker1_input"  name="datetimepicker1_input" value="{{datetimepicker1_input}}" >
                                     <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar"></i>
@@ -141,7 +141,7 @@
                         <div class="col-4"> 
                             <div class="form-group"> 
                                 <div class="input-group date" id="datetimepicker2" data-target-input="nearest"> 
-                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" value="01/15/2021"> 
+                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" id="datetimepicker2_input"  name="datetimepicker2_input" value="{{datetimepicker2_input}}" > 
                                     <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar"></i>
@@ -159,11 +159,11 @@
 
                         <div class="col-4">                        
                             <div class="form-group">
-                                <select class="form-control" id="select-taxperiod">
-                                    <option>해당 없음</option>
-                                    <option>1개월 이내</option>
-                                    <option>1개월 초과 3개월 이내</option>
-                                    <option>3개월 초과 6개월 이내</option>
+                                <select class="form-control" id="select_discount_period" name = "select_discount_period" >
+                                    <option value="해당 없음">해당 없음</option>
+                                    <option value="1개월 이내">1개월 이내</option>
+                                    <option value="1개월 초과 3개월 이내">1개월 초과 3개월 이내</option>
+                                    <option value="3개월 초과 6개월 이내">3개월 초과 6개월 이내</option>
                                 </select>
                             </div>
                             <p style="font-size:11px; color:grey;">국세기본법 제 48조 (가산세 감면 등) 제2항 2호</p>
@@ -172,7 +172,7 @@
                         <div class="col-3">
                             <div class="form-group">
                                 {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
-                                <input type="text" class="form-control" id="norepo_taxperiod" aria-describedby="emailHelp" readOnly="" style = "text-align:right;" placeholder="             -            %">
+                                <input type="text" class="form-control" id="norepo_taxrate_todiscount" name = "norepo_taxrate_todiscount" readOnly="" style = "text-align:right;" placeholder="             -            %">
                             </div>
                         </div>
                     </div>      
@@ -181,7 +181,7 @@
                         <div class="col-9">
                         </div>
                         <div class="col-3">
-                            <button type="submit" class="btn btn-primary">예상가산세액계산</button>
+                            <button type="submit" class="btn btn-primary" id="norepo_submit_btn" name="norepo_submit_btn">예상가산세액계산</button>
                         </div>
                     </div>
                     <br>  
@@ -456,128 +456,152 @@
         </div>
     </div>
 
-    <script type="text/javascript"> 
-        setValue()
 
-        $(function () {
+
+
+
+
+
+
+    <script type="text/javascript"> 
+        
+        //세션 스토리지의 데이터를 각 input에 set
+        setValue();
+
+
+
+        // 2. 가산세율의 부정행위 등의 선택여부에 따라서 tax rate를 지정하여줌.
+        if (document.getElementById('select_taxrate_item').value == "부정행위") {
+            document.getElementById('norepo_taxrate_tobepaid').value = "40%";
+        } else{
+            document.getElementById('norepo_taxrate_tobepaid').value = "20%";
+        } 
+
+        // 2. 가산세율의 항목 선택 시, 위와 동일한 이벤트 처리.
+        document.getElementById('select_taxrate_item').onclick = function(){
+
+            if (document.getElementById('select_taxrate_item').value == "부정행위") {
+                document.getElementById('norepo_taxrate_tobepaid').value = "40%";
+            } else{
+                document.getElementById('norepo_taxrate_tobepaid').value = "20%";              
+            }
+            populateStorage();
+
+        }
+
+        
+        //3. 감면 관련 datetimepicker 컨트롤
+        $(function () { //html 로딩 시 동작
+
+            //datetimepicker --> https://getdatepicker.com/5-4/Usage/
+            //시간을 제외하고 날짜만 나오도록 조정
             $('#datetimepicker1').datetimepicker({ format: 'L', useCurrent: false});
             $('#datetimepicker2').datetimepicker({ format: 'L', useCurrent: false});
             $('#datetimepicker3').datetimepicker({ format: 'L', useCurrent: false}); 
             $('#datetimepicker4').datetimepicker({ format: 'L', useCurrent: false}); 
 
-            $("#datetimepicker1").on("change.datetimepicker", function (e) { $('#datetimepicker2').datetimepicker('minDate', e.date); }); 
+            //최대-최소 날짜를 지정해줌. 
             $("#datetimepicker2").on("change.datetimepicker", function (e) { $('#datetimepicker1').datetimepicker('maxDate', e.date); }); 
-            $("#datetimepicker3").on("change.datetimepicker", function (e) { $('#datetimepicker4').datetimepicker('minDate', e.date); }); 
+            $("#datetimepicker1").on("change.datetimepicker", function (e) { $('#datetimepicker2').datetimepicker('minDate', e.date); }); 
             $("#datetimepicker4").on("change.datetimepicker", function (e) { $('#datetimepicker3').datetimepicker('maxDate', e.date); }); 
-        }); 
-
-        if (document.getElementById('select_taxrate_item').value == "부정행위") {
-            document.getElementById('norepo_taxrate_tobepaid').value = "40%"                                
-        } else{
-            document.getElementById('norepo_taxrate_tobepaid').value = "20%"
-        } 
+            $("#datetimepicker3").on("change.datetimepicker", function (e) { $('#datetimepicker4').datetimepicker('minDate', e.date); }); 
 
 
-        document.getElementById('select_taxrate_item').onclick = function(){
+            //무신고- 종료일자 선택 시, 날짜 차이 계산하여 감면기간 셀에 반영.
+            $("#datetimepicker2").on("change.datetimepicker", function (e) { 
 
-            if (document.getElementById('select_taxrate_item').value == "부정행위") {
-                document.getElementById('norepo_taxrate_tobepaid').value = "40%" 
+                var date1 = $("#datetimepicker1").find("input").val();
+                var date2 = $("#datetimepicker2").find("input").val();
 
-            } else{
-                document.getElementById('norepo_taxrate_tobepaid').value = "20%"                
-            }
-            populateStorage()
+                if( date1 == "" )
+                {
+                    alert("법정신고기한을 입력하여 주세요.")
+                    return;
+                }
 
-        }
+                // 법정신고기한과 실제 신고일자의 차이에 따라서 감면내용을 지정하여줌.
+                var diffInDays = (new Date($('#datetimepicker2_input').val()).valueOf() - new Date($('#datetimepicker1_input').val()).valueOf()) / (3600 * 24 * 1000);
+                
+                
+                
+                if(diffInDays > 180) {
+                    document.getElementById('select_discount_period').value = "해당 없음";
+
+                }else if(diffInDays > 91) {
+                    document.getElementById('select_discount_period').value = "3개월 초과 6개월 이내";
+
+                }else if(diffInDays > 31){
+                    document.getElementById('select_discount_period').value = "1개월 초과 3개월 이내";
+
+                }
+                else{
+                    document.getElementById('select_discount_period').value = "1개월 이내";
+
+                }
+
+                adjustNorepoTaxrateTodiscount();
+                //alert("diffInDays:"+ diffInDays);
+
+            });        
+
+        });
       
 
-        // detect storage support
-        {% comment %} (function() {
-            var storageAvailable = (type) => {
-                try {
-                    var storage = window[type],
-                        x = '__storage_test__'
-                    storage.setItem(x, x)
-                    storage.removeItem(x)
-                    return true
-                } catch (e) {
-                    return e instanceof DOMException && (
-                        e.code === 22 ||                               // All web browsers except Firefox
-                        e.code === 1014 ||                             // Firefox
-                        e.name === 'QuotaExceededError' ||             // All web browsers except Firefox
-                        e.name === 'NS_ERROR_DOM_QUOTA_REACHED')       // firefox
-                        && storage.length !== 0
-                }
+        adjustNorepoTaxrateTodiscount();
+
+        document.getElementById('select_discount_period').onclick = function(){
+            adjustNorepoTaxrateTodiscount();
+            populateStorage();
+
+        }
+
+
+        // 4. 예상 가산세액 계산
+        document.getElementById('norepo_submit_btn').onclick = function(){
+            populateStorage();
+        }
+
+
+
+        function adjustNorepoTaxrateTodiscount(){  // 무신고 가산세의 감면내용의 tax rate를 조정
+            
+            if (document.getElementById('select_discount_period').value == "해당 없음") {
+                document.getElementById('norepo_taxrate_todiscount').value = "0%";
+
+            }else if(document.getElementById('select_discount_period').value == "1개월 이내") {
+                document.getElementById('norepo_taxrate_todiscount').value = "50%";
+
+            }else if(document.getElementById('select_discount_period').value == "1개월 초과 3개월 이내") {
+                document.getElementById('norepo_taxrate_todiscount').value = "30%";                
             }
-            if (storageAvailable('localStorage')) {
-                console.log("localstorage support")
-            } else {
-                console.log("localstorage do not support")
+            else{
+                document.getElementById('norepo_taxrate_todiscount').value = "20%";
             }
-        })() {% endcomment %}
 
-        //setValue()
-        
-        function populateStorage() {
-            sessionStorage.setItem('norepo_tax_tobepaid', document.getElementById('norepo_tax_tobepaid').value)
-            sessionStorage.setItem('select_taxrate_item', document.getElementById('select_taxrate_item').value)
+        }
 
-            sessionStorage.setItem('select_taxrate_item', document.getElementById('select_taxrate_item').value)
-            sessionStorage.setItem('select_taxrate_item', document.getElementById('select_taxrate_item').value)
 
+        function populateStorage() {  //로컬 스토리지에 데이터를 저장
+            
+            sessionStorage.setItem('norepo_tax_tobepaid', document.getElementById('norepo_tax_tobepaid').value);
+            sessionStorage.setItem('select_taxrate_item', document.getElementById('select_taxrate_item').value);
+
+            sessionStorage.setItem('select_discount_period', document.getElementById('select_discount_period').value);
+            //sessionStorage.setItem('select_taxrate_item', document.getElementById('select_taxrate_item').value)
 
 
         }
 
-        function setValue() {
-            document.getElementById('norepo_tax_tobepaid').value = sessionStorage.getItem('norepo_tax_tobepaid')
-            document.getElementById('select_taxrate_item').value = sessionStorage.getItem('select_taxrate_item')
+        function setValue() {  //로컬 스토리지로부터 데이터를 가져와서 html 폼에 입력
+            document.getElementById('norepo_tax_tobepaid').value = sessionStorage.getItem('norepo_tax_tobepaid');
+            document.getElementById('select_taxrate_item').value = sessionStorage.getItem('select_taxrate_item');
 
-            document.getElementById('select_taxrate_item').value = sessionStorage.getItem('select_taxrate_item')
-            document.getElementById('select_taxrate_item').value = sessionStorage.getItem('select_taxrate_item')
-
-
+            document.getElementById('select_discount_period').value = sessionStorage.getItem('select_discount_period');
+            //document.getElementById('select_taxrate_item').value = sessionStorage.getItem('select_taxrate_item')
 
         }
 
-        //select_taxrate_item_selector.onchange = populateStorage
-
-
-
-        {% comment %} 
-        var colorEl = document.getElementById('colorEl')
-        var fontEl = document.getElementById('fontEl')
-        var colorSelector = document.getElementById('colorSelector')
-        var fontSelector = document.getElementById('fontSelector')
-
-        if (!localStorage.getItem('color')) {
-            populateStorage()
-        } else {
-            setStyle()
-        }
-
-        function populateStorage() {
-            localStorage.setItem('color', colorSelector.value)
-            localStorage.setItem('fontStyle', fontSelector.value)
-            setStyle()
-
-        }
-
-        function setValue() {
-
-
-            var currentColor = localStorage.getItem('color')
-            var currentFontStyle = localStorage.getItem('fontStyle')
-            colorSelector.value = currentColor
-            fontSelector.value = currentFontStyle
-            colorEl.style.backgroundColor = currentColor
-            fontEl.style.fontFamily = currentFontStyle
-        }
-
-        colorSelector.onchange = populateStorage
-        fontSelector.onchange = populateStorage {% endcomment %}
-
-
+   
     </script>
     
 
