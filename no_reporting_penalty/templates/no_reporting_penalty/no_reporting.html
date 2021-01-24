@@ -77,7 +77,7 @@
 
                         <div class="col-7">                             
                             <div class="form-group" >
-                                <input type="text" class="form-control" id="norepo_tax_tobepaid" name="norepo_tax_tobepaid" aria-describedby="emailHelp" placeholder="납부해야할 세액(대상금액)을 입력하세요.">
+                                <input type="text" class="form-control" id="norepo_tax_tobepaid" name="norepo_tax_tobepaid" aria-describedby="aria_describe" placeholder="납부해야할 세액(대상금액)을 입력하세요.">
                             </div>                                            
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                         </div>
                         <div class="col-3">                           
                             <div class="form-group">
-                                <input type="text" class="form-control" name="norepo_taxrate_tobepaid"  id="norepo_taxrate_tobepaid" aria-describedby="emailHelp" readOnly="" style = "text-align:right;" placeholder="             -            %" >
+                                <input type="text" class="form-control" name="norepo_taxrate_tobepaid"  id="norepo_taxrate_tobepaid" aria-describedby="aria_describe" readOnly="" style = "text-align:right;" placeholder="             -            %" >
                             </div>                           
                         </div>
                     </div>
@@ -193,7 +193,7 @@
 
                         <div class="col-7">                           
                             <div class="form-group">
-                                <input type="text" class="form-control" id="norepo_finaltax" name="norepo_finaltax" aria-describedby="emailHelp" readOnly="" style = "text-align:right;" placeholder="원" value="{{norepo_finaltax}} 원">
+                                <input type="text" class="form-control" id="norepo_finaltax" name="norepo_finaltax" aria-describedby="aria_describe" readOnly="" style = "text-align:right;" placeholder="원" value="{{norepo_finaltax}} 원">
 
                             </div>                        
                         </div>
@@ -205,7 +205,10 @@
                 <br>
                 <br>
                 
-                <div class ="container px-3 py-4 border">       
+                <div class ="container px-3 py-4 border">
+                <form action = "" method = POST>
+                    {% csrf_token %}
+
                     <h5>납부지연 가산세 계산</h5>
                     <br>
                     
@@ -215,13 +218,9 @@
                         </div>
 
                         <div class="col-7">   
-                            <form>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" placeholder="납부해야할 세액(대상금액)을 입력하세요.">
+                                    <input type="text" class="form-control" id="delayrepo_taxtobepaid" name="delayrepo_taxtobepaid" placeholder="납부해야할 세액(대상금액)을 입력하세요.">
                                 </div>
-                            </form>
-                    
-
                         </div>
                     </div>
 
@@ -230,13 +229,10 @@
                             <p style="font-weight:600;">2. 미납부 일수 </p>
                         </div>                 
 
-                        <div class="col-5">   
-                            <form>
-                                <div class="form-group">
-                                    {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
-                                    <input type="text" style = "text-align:right;" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" readOnly="" placeholder="일">
-                                </div>
-                            </form>
+                        <div class="col-5">                   
+                            <div class="form-group">
+                                <input type="text" style = "text-align:right;" class="form-control" id="delayrepo_daytobepaid" name="delayrepo_daytobepaid" aria-describedby="" readOnly="" placeholder="일">
+                            </div>                      
                         </div>
                     </div>
 
@@ -248,7 +244,7 @@
                         <div class="col-4"> 
                             <div class="form-group"> 
                                 <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-                                    <input type="text"   class="form-control datetimepicker-input" data-target="#datetimepicker3" value="01/11/2020">
+                                    <input type="text" class="form-control datetimepicker-input" id="datetimepicker3_input" name="datetimepicker3_input" data-target="#datetimepicker3" value="{{datetimepicker3_input}}">
                                     <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar"></i>
@@ -265,7 +261,7 @@
                         <div class="col-4"> 
                             <div class="form-group"> 
                                 <div class="input-group date" id="datetimepicker4" data-target-input="nearest"> 
-                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" value="01/15/2020"> 
+                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4" id="datetimepicker4_input" name="datetimepicker4_input" value="{{datetimepicker4_input}}"> 
                                     <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar"></i>
@@ -275,38 +271,30 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-5 mt-2">   
                             <p style="font-weight:700;">3. 이자율</p>
                         </div>
-
                         <div class="col-3">                        
                             <div class="form-group">
-                                <select class="form-control" id="select-taxratedelayed">
+                                <select class="form-control" id="select_taxratedelayed" name="select_taxratedelayed" >
                                     <option>10만분의 25</option>
                                     <option>1만분의 3</option>                            
                                 </select>
                             </div>
                         </div>
-
                         <div class="col-4">   
-                            <form>
-                                <div class="form-group">
-                                    {% comment %} <label for="norepo_taxtobepaid"> 납부해야할 세액 (대상금액)</label> {% endcomment %}
-                                    <input type="text" class="form-control" id="norepo_taxperiod" aria-describedby="emailHelp" readOnly=""  style = "text-align:right;" placeholder="             -                    %">
-                                </div>
-                                <p style="font-size:11px; color:grey;">2019년 신고·부과하는 분부터 10만분의 25적용</p>
-
-                            </form>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="delayrepo_taxrate" name="delayrepo_taxrate" aria-describedby="" readOnly=""  style = "text-align:right;" placeholder="             -                    %">
+                            </div>
+                            <p style="font-size:11px; color:grey;">2019년 신고·부과하는 분부터 10만분의 25적용</p>
                         </div>
-                    </div>      
-
+                    </div>
                     <div class="row">
                         <div class="col-9">
                         </div>
                         <div class="col-3">
-                            <button type="button" class="btn btn-primary">예상가산세액계산</button>
+                            <button type="submit" class="btn btn-primary" id="delayrepo_submit_btn"  name="delayrepo_submit_btn">예상가산세액계산</button>
                         </div>
                     </div>
                     <br>  
@@ -315,15 +303,13 @@
                         <div class="col-5 mt-2">   
                             <p style="font-weight:600;" class="text-info">예상 가산세액</p>
                         </div>
-
                         <div class="col-7">   
-                            <form>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" readOnly="" placeholder="                                                                                      원">
-                                </div>
-                            </form>
+                            <div class="form-group">
+                                <input type="text" class="form-control"id="delayrepo_finaltax" name="delayrepo_finaltax" aria-describedby="aria_describe" readOnly="" style = "text-align:right;" placeholder="원" value="{{delayrepo_finaltax}} 원">
+                            </div>
                         </div>
                     </div>
+                </form>
                 </div>       
 
                 <br>
@@ -331,11 +317,8 @@
 
                     <button type="button" class="btn btn-success" >초기화</button>
                 </div>
+                <br>             
                 <br>
-             
-                <br>
-
-
                 <div class ="container px-3 py-4 border">       
                     <h5>최종 예상 가산세 계산</h5>
                     <br>
@@ -346,13 +329,9 @@
                         </div>
 
                         <div class="col-7">   
-                            <form>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" readOnly=""  style = "text-align:right;" placeholder="원">
-                                </div>
-                            </form>
-                    
-
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="final_norepo_tax" name="final_norepo_tax" aria-describedby="aria_describe" readOnly=""  style = "text-align:right;" placeholder="원" value="{{final_norepo_tax}}">
+                            </div>
                         </div>
                     </div>
 
@@ -362,28 +341,20 @@
                         </div>
 
                         <div class="col-7">   
-                            <form>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" readOnly=""  style = "text-align:right;" placeholder="원">
-                                </div>
-                            </form>
-                    
-
+                            <div class="form-group">
+                                <input type="text" class="form-control"  id="final_delayrepo_tax" name="final_delayrepo_tax" aria-describedby="aria_describe" readOnly=""  style = "text-align:right;" placeholder="원" value="{{final_delayrepo_tax}}">
+                            </div>
                         </div>
                     </div>
                     <hr />
                     <div class="row">
                         <div class="col-5 mt-2">   
                             <p style="font-weight:600;" class="text-info">가산세 합계</p>
-                        </div>               
-
+                        </div>       
                         <div class="col-7">   
-                            <form>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="emailHelp" readOnly=""  style = "text-align:right;" placeholder="원">
-                                </div>
-                            </form>                   
-
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="norepo_taxtobepaid" aria-describedby="aria_describe" readOnly=""  style = "text-align:right;" placeholder="원">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -468,32 +439,11 @@
         //세션 스토리지의 데이터를 각 input에 set
         setValue();
 
-
-
-        // 2. 가산세율의 부정행위 등의 선택여부에 따라서 tax rate를 지정하여줌.
-        if (document.getElementById('select_taxrate_item').value == "부정행위") {
-            document.getElementById('norepo_taxrate_tobepaid').value = "40%";
-        } else{
-            document.getElementById('norepo_taxrate_tobepaid').value = "20%";
-        } 
-
-        // 2. 가산세율의 항목 선택 시, 위와 동일한 이벤트 처리.
-        document.getElementById('select_taxrate_item').onclick = function(){
-
-            if (document.getElementById('select_taxrate_item').value == "부정행위") {
-                document.getElementById('norepo_taxrate_tobepaid').value = "40%";
-            } else{
-                document.getElementById('norepo_taxrate_tobepaid').value = "20%";              
-            }
-            populateStorage();
-
-        }
-
         
-        //3. 감면 관련 datetimepicker 컨트롤
-        $(function () { //html 로딩 시 동작
+        //html 로딩 시 동작 
+        $(function () { 
 
-            //datetimepicker --> https://getdatepicker.com/5-4/Usage/
+            //datetimepicker 컨트롤 --> https://getdatepicker.com/5-4/Usage/
             //시간을 제외하고 날짜만 나오도록 조정
             $('#datetimepicker1').datetimepicker({ format: 'L', useCurrent: false});
             $('#datetimepicker2').datetimepicker({ format: 'L', useCurrent: false});
@@ -505,6 +455,7 @@
             $("#datetimepicker1").on("change.datetimepicker", function (e) { $('#datetimepicker2').datetimepicker('minDate', e.date); }); 
             $("#datetimepicker4").on("change.datetimepicker", function (e) { $('#datetimepicker3').datetimepicker('maxDate', e.date); }); 
             $("#datetimepicker3").on("change.datetimepicker", function (e) { $('#datetimepicker4').datetimepicker('minDate', e.date); }); 
+
 
 
             //무신고- 종료일자 선택 시, 날짜 차이 계산하여 감면기간 셀에 반영.
@@ -527,10 +478,10 @@
                 if(diffInDays > 180) {
                     document.getElementById('select_discount_period').value = "해당 없음";
 
-                }else if(diffInDays > 91) {
+                }else if(diffInDays > 90) {
                     document.getElementById('select_discount_period').value = "3개월 초과 6개월 이내";
 
-                }else if(diffInDays > 31){
+                }else if(diffInDays > 30){
                     document.getElementById('select_discount_period').value = "1개월 초과 3개월 이내";
 
                 }
@@ -542,9 +493,55 @@
                 adjustNorepoTaxrateTodiscount();
                 //alert("diffInDays:"+ diffInDays);
 
+            });      
+
+
+            // 지연납부 관련하여 종료일자 선택 시, 날짜 차이 계산하여 감면기간 셀에 반영.
+            $("#datetimepicker4").on("change.datetimepicker", function (e) { 
+
+                var date3 = $("#datetimepicker3").find("input").val();
+                var date4 = $("#datetimepicker4").find("input").val();
+
+                if( date3 == "" )
+                {
+                    alert("법정신고기한을 입력하여 주세요.")
+                    return;
+                }
+
+                // 법정신고기한과 실제 납부일자의 차이에 따라서 미납부 일수를 계산
+                var diffInDays = (new Date($('#datetimepicker4_input').val()).valueOf() - new Date($('#datetimepicker3_input').val()).valueOf()) / (3600 * 24 * 1000);
+                                
+                document.getElementById('delayrepo_daytobepaid').value = diffInDays
+
+
             });        
 
+
         });
+
+
+
+        //------------------------무신고 가산세 only------------------------------------------
+
+
+        // 2. 가산세율의 부정행위 등의 선택여부에 따라서 tax rate를 지정하여줌.
+        if (document.getElementById('select_taxrate_item').value == "부정행위") {
+            document.getElementById('norepo_taxrate_tobepaid').value = "40%";
+        } else{
+            document.getElementById('norepo_taxrate_tobepaid').value = "20%";
+        } 
+
+        // 2. 가산세율의 항목 선택 시, 위와 동일한 이벤트 처리.
+        document.getElementById('select_taxrate_item').onclick = function(){
+
+            if (document.getElementById('select_taxrate_item').value == "부정행위") {
+                document.getElementById('norepo_taxrate_tobepaid').value = "40%";
+            } else{
+                document.getElementById('norepo_taxrate_tobepaid').value = "20%";              
+            }
+            populateStorage();
+
+        }        
       
 
         adjustNorepoTaxrateTodiscount();
@@ -556,7 +553,7 @@
         }
 
 
-        // 4. 예상 가산세액 계산
+        // 4. 무신고- 예상 가산세액 계산
         document.getElementById('norepo_submit_btn').onclick = function(){
             populateStorage();
         }
@@ -581,13 +578,63 @@
         }
 
 
+        //------------------------납부 지연 가산세------------------------------------------
+
+ 
+        // 3.이자율 관련 처리
+        adjustDelayrepoTaxrateToPay()
+        document.getElementById('select_taxratedelayed').onclick = function(){
+
+            adjustDelayrepoTaxrateToPay();
+            populateStorage();
+
+        }
+     
+
+        // 4. 지연납부- 예상 가산세액 계산
+        document.getElementById('delayrepo_submit_btn').onclick = function(){
+            populateStorage();
+        }
+
+
+
+        function adjustDelayrepoTaxrateToPay(){  // 지연납부 가산세의 감면내용의 tax rate를 조정.
+            
+            if (document.getElementById('select_taxratedelayed').value == "10만분의 25") {
+                document.getElementById('delayrepo_taxrate').value = "0.025%";
+
+            }
+            else{
+                document.getElementById('delayrepo_taxrate').value = "0.03%";
+            }
+
+        }
+
+
+
+
+
+
+
+        //-----------------------------------공통-------------------------------------------------------------
+
+
         function populateStorage() {  //로컬 스토리지에 데이터를 저장
             
             sessionStorage.setItem('norepo_tax_tobepaid', document.getElementById('norepo_tax_tobepaid').value);
             sessionStorage.setItem('select_taxrate_item', document.getElementById('select_taxrate_item').value);
-
             sessionStorage.setItem('select_discount_period', document.getElementById('select_discount_period').value);
-            //sessionStorage.setItem('select_taxrate_item', document.getElementById('select_taxrate_item').value)
+            
+            sessionStorage.setItem('delayrepo_taxtobepaid', document.getElementById('delayrepo_taxtobepaid').value)
+            sessionStorage.setItem('delayrepo_daytobepaid', document.getElementById('delayrepo_daytobepaid').value)           
+            sessionStorage.setItem('select_taxratedelayed', document.getElementById('select_taxratedelayed').value)
+            sessionStorage.setItem('delayrepo_taxrate', document.getElementById('delayrepo_taxrate').value)
+
+           // sessionStorage.setItem('norepo_finaltax', document.getElementById('norepo_finaltax').value)
+           // sessionStorage.setItem('final_norepo_tax', document.getElementById('final_norepo_tax').value)
+           // sessionStorage.setItem('delayrepo_finaltax', document.getElementById('delayrepo_finaltax').value)
+           // sessionStorage.setItem('final_delayrepo_tax', document.getElementById('final_delayrepo_tax').value)
+
 
 
         }
@@ -595,11 +642,24 @@
         function setValue() {  //로컬 스토리지로부터 데이터를 가져와서 html 폼에 입력
             document.getElementById('norepo_tax_tobepaid').value = sessionStorage.getItem('norepo_tax_tobepaid');
             document.getElementById('select_taxrate_item').value = sessionStorage.getItem('select_taxrate_item');
-
             document.getElementById('select_discount_period').value = sessionStorage.getItem('select_discount_period');
-            //document.getElementById('select_taxrate_item').value = sessionStorage.getItem('select_taxrate_item')
+
+            document.getElementById('delayrepo_taxtobepaid').value = sessionStorage.getItem('norepo_tax_tobepaid')
+            document.getElementById('delayrepo_daytobepaid').value = sessionStorage.getItem('delayrepo_daytobepaid')
+            document.getElementById('select_taxratedelayed').value = sessionStorage.getItem('select_taxratedelayed')
+            document.getElementById('delayrepo_taxrate').value = sessionStorage.getItem('delayrepo_taxrate')
+
+          //  document.getElementById('norepo_finaltax').value = sessionStorage.getItem('norepo_finaltax')
+          //  document.getElementById('final_norepo_tax').value = sessionStorage.getItem('final_norepo_tax')
+          //  document.getElementById('delayrepo_finaltax').value = sessionStorage.getItem('delayrepo_finaltax')
+           // document.getElementById('final_delayrepo_tax').value = sessionStorage.getItem('final_delayrepo_tax')
+
 
         }
+
+
+
+
 
    
     </script>
