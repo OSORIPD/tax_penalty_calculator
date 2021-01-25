@@ -131,7 +131,7 @@ def no_reporting(request):
             if is_error_delayrepo_taxtobepaid is True:
                 return_value = "납부해야할 세액이 잘못 입력되었습니다."
             else:
-                return_value = int(delayrepo_taxtobepaid * tax_rate_delay * delayrepo_daytobepaid / 365.0)
+                return_value = int(delayrepo_taxtobepaid * tax_rate_delay * delayrepo_daytobepaid )
                 final_delayrepo_tax = return_value
                 
 
